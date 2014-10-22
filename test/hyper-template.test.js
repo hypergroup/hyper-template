@@ -122,4 +122,40 @@ describe('hyper-template', function() {
       }
     }
   ));
+
+  it('should render arrays', test(
+    {
+      users: [
+        '.@.name',
+        '.@.name',
+        '.@.name'
+      ]
+    }, {}, {
+      users: [
+        'Mike',
+        'Joe',
+        'Robert'
+      ]
+    }
+  ));
+
+  it('should traverse hyper collections', test(
+    {
+      users: [
+        '@.name',
+        '@.name',
+        '@.name'
+      ]
+    }, {
+      users: {
+        href: '/users'
+      }
+    }, {
+      users: [
+        'Mike',
+        'Joe',
+        'Robert'
+      ]
+    }
+  ));
 });

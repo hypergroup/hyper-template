@@ -159,6 +159,10 @@ function append(arr, item) {
 function set(obj, path, value, i) {
   i = i || 0;
   var key = path[i];
-  if (i !== path.length - 1) return set((obj[key] = obj[key] || {}), path, value, i + 1);
-  obj[key] = value;
+
+  if (i === path.length - 1) return obj[key] = value;
+
+  obj[key] = obj[key] || (typeof path[i + 1] === 'number' ? [] : {});
+
+  return set(obj[key], path, value, i + 1);
 }
