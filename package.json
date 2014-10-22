@@ -1,0 +1,32 @@
+{
+  "name": "hyper-template",
+  "version": "0.1.0",
+  "description": "transform hyper+json data with a template",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hypergroup/hyper-template.git"
+  },
+  "keywords": [
+    "hyper",
+    "json",
+    "hypermedia"
+  ],
+  "author": "Cameron Bytheway <bytheway.cameron@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hypergroup/hyper-template/issues"
+  },
+  "homepage": "https://github.com/hypergroup/hyper-template",
+  "dependencies": {
+    "hyper-store": "^0.1.0",
+    "utils-merge": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.0.0",
+    "should": "^4.1.0"
+  }
+}
