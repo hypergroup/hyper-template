@@ -46,9 +46,15 @@ function Template(template, client, resources) {
  */
 
 Template.prototype.render = function(scope, opts, cb) {
+  if (typeof opts === 'function') {
+    cb = opts;
+    opts = {};
+  }
+
   var out;
   var store = this.store;
   var fns = this.fns;
+
   var isArray = Array.isArray(this._t);
 
   function fetch() {
