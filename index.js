@@ -58,18 +58,21 @@ Template.prototype.render = function(scope, opts, cb) {
   var isArray = Array.isArray(this._t);
 
   function fetch() {
-    if (store.start) store.start();
+    store.start();
 
     out = isArray ? [] : {};
 
     fns.forEach(function(fn) {
       fn(scope, out);
     });
+
+    store.stop();
   }
 
   store.on('change', fetch);
 
   store.once('complete', function() {
+    store.removeListener('change', fetch);
     cb(null, out);
   });
   fetch();

@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/hypergroup/hyper-template",
   "dependencies": {
-    "hyper-store": "^0.1.0",
+    "hyper-store": "^0.2.0",
     "utils-merge": "^1.0.0"
   },
   "devDependencies": {
