@@ -54,27 +54,46 @@ Template.prototype.render = function(scope, opts, cb) {
   var out;
   var store = this.store;
   var fns = this.fns;
+  var hasError;
 
   var isArray = Array.isArray(this._t);
 
+  function handleError(err) {
+    if (hasError) return;
+    hasError = true;
+    cleanup();
+    cb(err);
+  }
+
+  function cleanup() {
+    store.removeListener('change', fetch);
+  }
+
   function fetch() {
+    if (hasError) return;
     store.start();
 
     out = isArray ? [] : {};
 
-    fns.forEach(function(fn) {
-      fn(scope, out);
-    });
+    try {
+      fns.forEach(function(fn) {
+        fn(scope, out);
+      });
+    } catch (err) {
+      handleError(err);
+    }
 
     store.stop();
   }
 
-  store.on('change', fetch);
-
-  store.once('complete', function() {
-    store.removeListener('change', fetch);
+  function complete() {
+    if (hasError) return;
+    cleanup();
     cb(null, out);
-  });
+  }
+
+  store.on('change', fetch);
+  store.once('complete', complete);
   fetch();
 
   return this;

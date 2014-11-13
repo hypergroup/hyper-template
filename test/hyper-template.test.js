@@ -3,8 +3,12 @@ var create = require('..');
 
 var resources = {
   '/': {
+    href: '/',
     users: {
       href: '/users'
+    },
+    missing: {
+      href: '/missing'
     }
   },
   '/users': {
@@ -52,14 +56,21 @@ var client = {
   },
   get: function(path, cb) {
     setTimeout(function() {
-      cb(null, resources[path]);
+      var res = resources[path];
+      if (!res) return cb(new Error(path + ' not found'));
+      cb(null, res);
     }, 0);
   }
 };
 
 function test (input, scope, expected) {
+
   return function(done) {
     create(input, client)(scope, {}, function(err, actual) {
+      if (!expected) {
+        should.exist(err);
+        return done();
+      }
       should.not.exist(err);
       should.exist(actual);
       actual.should.eql(expected);
@@ -156,6 +167,12 @@ describe('hyper-template', function() {
         'Joe',
         'Robert'
       ]
+    }
+  ));
+
+  it('should catch errors', test(
+    {
+      missing: '.missing.property'
     }
   ));
 });
